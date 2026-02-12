@@ -8,7 +8,8 @@ import lombok.Setter;
 import java.util.UUID;
 
 @Getter
-@AllArgsConstructor
+//@AllArgsConstructor
+@Setter
 public class VetServiceDTO {
 
     private UUID id;

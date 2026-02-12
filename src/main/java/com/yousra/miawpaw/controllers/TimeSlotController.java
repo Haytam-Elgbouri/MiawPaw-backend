@@ -10,7 +10,7 @@ import java.util.List;
 
 @CrossOrigin("http://localhost:8080")
 @RestController
-@RequestMapping("/api/time-slot")
+@RequestMapping("/api/booked-slots")
 @RequiredArgsConstructor
 public class TimeSlotController {
 
@@ -18,7 +18,7 @@ public class TimeSlotController {
 
     @GetMapping
 //            ("/{date}")
-    public List<TimeSlot> getAvailableSlots(@RequestParam LocalDate date){
+    public List<TimeSlot> getBookedSlots(@RequestParam LocalDate date){
         return timeSlotService.getAvailableSlots(date);
     }
 

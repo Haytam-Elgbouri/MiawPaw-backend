@@ -32,7 +32,7 @@ public class AppointmentServiceImpl implements IAppointmentService {
     private final VetServiceRepository serviceRepository;
 
     @Override
-    public AppointmentDTO addAppointment(AppointmentDTO dto) {
+    public AppointmentDTO addAppointment(AppointmentDTO dto, AppointmentSource source) {
         Appointment appointment = appointmentMapper.toEntity(dto);
 
         if (appointment.getTimeSlot().getDate().isBefore(LocalDate.now())) {
@@ -59,7 +59,7 @@ public class AppointmentServiceImpl implements IAppointmentService {
         }
 
         appointment.setCreatedAt(LocalDateTime.now());
-        appointment.setSource(AppointmentSource.ONLINE);
+        appointment.setSource(source);
         Appointment savedAppointment = appointmentRepository.save(appointment);
         return appointmentMapper.toDto(savedAppointment);
     }
@@ -110,8 +110,8 @@ public class AppointmentServiceImpl implements IAppointmentService {
     }
 
     @Override
-    public List<AppointmentDTO> getAllApprovedAppointments() {
-        return appointmentRepository.findByStatus(AppointmentStatus.APPROVED)
+    public List<AppointmentDTO> getAppointmentsByStatus(AppointmentStatus status) {
+        return appointmentRepository.findByStatus(status)
                 .stream()
                 .map(appointmentMapper::toDto)
                 .collect(Collectors.toList());
@@ -158,4 +158,6 @@ public class AppointmentServiceImpl implements IAppointmentService {
             .map(appointmentMapper::toDto)
             .collect(Collectors.toList());
     }
+
+
 }

@@ -1,6 +1,8 @@
 package com.yousra.miawpaw.controllers;
 
 import com.yousra.miawpaw.dtos.AppointmentDTO;
+import com.yousra.miawpaw.enums.AppointmentSource;
+import com.yousra.miawpaw.enums.AppointmentStatus;
 import com.yousra.miawpaw.services.IAppointmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -17,9 +19,13 @@ public class AppointmentController {
 
     private final IAppointmentService appointmentService;
 
-    @PostMapping
-    public AppointmentDTO addAppointment(@RequestBody AppointmentDTO dto){
-        return appointmentService.addAppointment(dto);
+    @PostMapping("/online")
+    public AppointmentDTO addAppointmentOnline(@RequestBody AppointmentDTO dto){
+        return appointmentService.addAppointment(dto, AppointmentSource.ONLINE);
+    }
+    @PostMapping("/phone")
+    public AppointmentDTO addAppointmentPhone(@RequestBody AppointmentDTO dto){
+        return appointmentService.addAppointment(dto, AppointmentSource.PHONE);
     }
 
     @PutMapping("/{id}")
@@ -47,8 +53,23 @@ public class AppointmentController {
         return appointmentService.rejectAppointment(id);
     }
 
-    @GetMapping("/validated-appointments/{date}")
-    public List<AppointmentDTO> getValidatedAppointmentsByDate(@PathVariable LocalDate date){
+    @GetMapping("/validated-appointments")
+    public List<AppointmentDTO> getValidatedAppointmentsByDate(@RequestParam LocalDate date){
         return appointmentService.getValidatedAppointmentsByDate(date);
+    }
+
+    @GetMapping("/approved")
+    public List<AppointmentDTO> getApprovedAppointments(){
+        return appointmentService.getAppointmentsByStatus(AppointmentStatus.APPROVED);
+    }
+
+    @GetMapping("/rejected")
+    public List<AppointmentDTO> getRejectedAppointments(){
+        return appointmentService.getAppointmentsByStatus(AppointmentStatus.REJECTED);
+    }
+
+    @GetMapping("/pending")
+    public List<AppointmentDTO> getPendingAppointments(){
+        return appointmentService.getAppointmentsByStatus(AppointmentStatus.PENDING);
     }
 }

@@ -1,50 +1,59 @@
-package com.yousra.miawpaw.security.entities;
+package com.yousra.miawpaw.security.models.entities;
 
-import com.yousra.miawpaw.security.enums.Role;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+//import com.yousra.miawpaw.models.entities.OrdrePaiementEmis;
+import com.yousra.miawpaw.security.models.enums.Role;
+import jakarta.persistence.*;
+//import jakarta.validation.constraints.NotBlank;
+//import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.jspecify.annotations.Nullable;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
-@Data
-@AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "users")
 public class User implements UserDetails {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-    private String username;
+    private String firstName;
+
+    private String lastName;
+
+    @Column(name = "email", unique = true)
+    private String email;
 
     private String password;
 
+    private String CIN;
+
+    private String phone;
+
     private Role role;
+
+    private Boolean isActive = false;
+
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
-    }
-
-    @Override
-    public @Nullable String getPassword() {
-        return "";
+        return Collections.singleton(role);
     }
 
     @Override
     public String getUsername() {
-        return username;
+        return "";
     }
 
     @Override
@@ -66,4 +75,5 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return UserDetails.super.isEnabled();
     }
+
 }

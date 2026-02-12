@@ -1,0 +1,25 @@
+package com.yousra.miawpaw.security.services.IMPL;
+
+import com.yousra.miawpaw.security.exceptions.UsernameNotExistException;
+import com.yousra.miawpaw.security.models.entities.User;
+import com.yousra.miawpaw.security.repositories.UserRepository;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+public class UserDetailsServiceImpl implements org.springframework.security.core.userdetails.UserDetailsService {
+
+    private final UserRepository userRepository;
+
+    @Override
+    @Transactional
+    public UserDetails loadUserByUsername(String email) throws UsernameNotExistException {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotExistException("User Not Found with email: " + email));
+
+        return UserDetailsImpl.build(user);
+    }
+}

@@ -12,7 +12,8 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Getter
-@AllArgsConstructor
+//@AllArgsConstructor
+@Setter
 public class AppointmentDTO {
 
     private UUID id;
