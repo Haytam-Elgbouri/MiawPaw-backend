@@ -5,6 +5,7 @@ import com.yousra.miawpaw.services.IAccessoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,7 +18,7 @@ public class AccessoryController {
     private final IAccessoryService accessoryService;
 
     @PostMapping
-    public AccessoryDTO addAccessory(@RequestBody AccessoryDTO dto){
+    public AccessoryDTO addAccessory(@RequestBody AccessoryDTO dto) throws IOException {
         return accessoryService.addAccessory(dto);
     }
 

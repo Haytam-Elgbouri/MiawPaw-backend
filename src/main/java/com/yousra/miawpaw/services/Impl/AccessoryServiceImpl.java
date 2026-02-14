@@ -4,11 +4,13 @@ import com.yousra.miawpaw.dtos.AccessoryDTO;
 import com.yousra.miawpaw.entities.Accessory;
 import com.yousra.miawpaw.mappers.AccessoryMapper;
 import com.yousra.miawpaw.repository.AccessoryRepository;
+import com.yousra.miawpaw.services.CloudinaryService;
 import com.yousra.miawpaw.services.IAccessoryService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -20,10 +22,18 @@ public class AccessoryServiceImpl implements IAccessoryService {
 
     private final AccessoryMapper accessoryMapper;
     private final AccessoryRepository accessoryRepository;
+    private final CloudinaryService cloudinaryService;
 
     @Override
-    public AccessoryDTO addAccessory(AccessoryDTO dto) {
+    public AccessoryDTO addAccessory(AccessoryDTO dto) throws IOException {
         Accessory accessory = accessoryMapper.toEntity(dto);
+
+        if (accessory.getImageUrl() != null &&
+                accessory.getImageUrl().startsWith("data:image")) {
+            String url = cloudinaryService.uploadBase64(accessory.getImageUrl());
+            accessory.setImageUrl(url);
+        }
+
         Accessory savedAccessory = accessoryRepository.save(accessory);
         return accessoryMapper.toDto(savedAccessory);
     }

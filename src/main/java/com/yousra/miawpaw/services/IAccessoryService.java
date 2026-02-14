@@ -2,11 +2,12 @@ package com.yousra.miawpaw.services;
 
 import com.yousra.miawpaw.dtos.AccessoryDTO;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
 public interface IAccessoryService {
-    AccessoryDTO addAccessory(AccessoryDTO dto);
+    AccessoryDTO addAccessory(AccessoryDTO dto) throws IOException;
     AccessoryDTO updateAccessory(AccessoryDTO dto, UUID id);
     AccessoryDTO getAccessoryById(UUID id);
     List<AccessoryDTO> getAllAccessories();
