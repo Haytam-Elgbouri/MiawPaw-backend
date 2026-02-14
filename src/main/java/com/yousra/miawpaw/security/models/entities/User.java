@@ -27,22 +27,22 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String firstName;
+//    private String firstName;
+//
+//    private String lastName;
 
-    private String lastName;
-
-    @Column(name = "email", unique = true)
-    private String email;
+    @Column(name = "username", unique = true)
+    private String username;
 
     private String password;
 
-    private String CIN;
-
-    private String phone;
+//    private String CIN;
+//
+//    private String phone;
 
     private Role role;
 
-    private Boolean isActive = false;
+//    private Boolean isActive = false;
 
 
 
@@ -53,7 +53,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return "";
+        return username;
     }
 
     @Override

@@ -5,7 +5,7 @@ import com.yousra.miawpaw.security.models.enums.Role;
 public record JwtResponseDto(
         String token,
         Long id,
-        String email,
+        String username,
         Role role
 ) {
 }

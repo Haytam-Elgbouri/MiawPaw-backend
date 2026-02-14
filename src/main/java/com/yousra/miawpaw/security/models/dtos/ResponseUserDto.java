@@ -5,12 +5,12 @@ import com.yousra.miawpaw.security.models.enums.Role;
 //import jakarta.validation.constraints.NotNull;
 
 public record ResponseUserDto(
-        String firstName,
-        String lastName,
-        String email,
-        String phone,
-        String CIN,
-        Role role,
-        Boolean isActive
+//        String firstName,
+//        String lastName,
+        String username,
+//        String phone,
+//        String CIN,
+        Role role
+//        Boolean isActive
 ) {
 }

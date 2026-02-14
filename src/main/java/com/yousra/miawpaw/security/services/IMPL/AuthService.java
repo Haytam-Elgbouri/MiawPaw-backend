@@ -32,18 +32,18 @@
         @Override
         public JwtResponseDto login(LoginRequestDto dto) {
             Authentication authentication =  authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(dto.email(), dto.password())
+                    new UsernamePasswordAuthenticationToken(dto.username(), dto.password())
             );
 
-            User user = getUserByEmail(dto.email());
+            User user = getUserByUsername(dto.username());
 
-            if (!user.getIsActive()){
-                throw new UserIsActiveException(dto.email());
-            }
+//            if (!user.getIsActive()){
+//                throw new UserIsActiveException(dto.username());
+//            }
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
             String token = jwtUtils.generateJwtToken(authentication);
-            return new JwtResponseDto(token, user.getId(), dto.email(), user.getRole());
+            return new JwtResponseDto(token, user.getId(), dto.username(), user.getRole());
         }
 
         @Override
@@ -54,7 +54,7 @@
                 Object principal = authentication.getPrincipal();
 
                 if (principal instanceof UserDetailsImpl userDetails) {
-                    User authenticatedUser = getUserByEmail(userDetails.getUsername());
+                    User authenticatedUser = getUserByUsername(userDetails.getUsername());
                     return mapper.toDto(authenticatedUser);
                 } else {
                     throw new UserProfileNotFound("Authenticated user not found or not recognized.");
@@ -71,7 +71,7 @@
                 Object principal = authentication.getPrincipal();
 
                 if (principal instanceof UserDetailsImpl userDetails) {
-                    return getUserByEmail(userDetails.getUsername());
+                    return getUserByUsername(userDetails.getUsername());
                 } else {
                     throw new UserProfileNotFound("Authenticated user not found or not recognized.");
                 }
@@ -96,8 +96,8 @@
             repository.save(user);
         }
 
-        private User getUserByEmail(String email) {
-            return repository.findByEmail(email)
-                    .orElseThrow(() -> new UserProfileNotFound("This email <" + email + "> is incorrect."));
+        private User getUserByUsername(String username) {
+            return repository.findByUsername(username)
+                    .orElseThrow(() -> new UserProfileNotFound("This username <" + username + "> is incorrect."));
         }
     }

@@ -26,15 +26,15 @@ public class DataSeeders implements CommandLineRunner {
         String hashedPassword = encoder.encode(rawPassword);
         if (userRepository.count() == 0) {
             User admin = new User();
-            admin.setFirstName("Admin");
-            admin.setLastName("Ladmin");
+//            admin.setFirstName("Admin");
+//            admin.setLastName("Ladmin");
 
-            admin.setEmail("admin@gmail.com");
+            admin.setUsername("admin");
             admin.setPassword(hashedPassword);
-            admin.setCIN("JB567890");
-            admin.setPhone("+212 6396-21650");
+//            admin.setCIN("JB567890");
+//            admin.setPhone("+212 6396-21650");
             admin.setRole(Role.ROLE_ADMIN);
-            admin.setIsActive(true);
+//            admin.setIsActive(true);
 
             userRepository.save(admin);
         }

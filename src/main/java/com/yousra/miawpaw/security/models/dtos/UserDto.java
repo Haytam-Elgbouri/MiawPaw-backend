@@ -6,13 +6,13 @@ import com.yousra.miawpaw.security.models.enums.Role;
 
 public record UserDto(
         Long id,
-        String firstName,
-        String lastName,
-        String email,
-        String phone,
-        String CIN,
-        Role role,
+//        String firstName,
+//        String lastName,
+        String username,
+//        String phone,
+//        String CIN,
+        Role role
 //        List<OrdrePaiementEmisDto> payments,
-        Boolean isActive
+//        Boolean isActive
 ) {
 }
