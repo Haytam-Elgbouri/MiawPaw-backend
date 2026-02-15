@@ -5,6 +5,7 @@ import com.yousra.miawpaw.services.IPetService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,7 +18,7 @@ public class PetController {
     private final IPetService petService;
 
     @PostMapping
-    public PetDTO addPet(@RequestBody PetDTO dto){
+    public PetDTO addPet(@RequestBody PetDTO dto) throws IOException {
         return petService.addPet(dto);
     }
 

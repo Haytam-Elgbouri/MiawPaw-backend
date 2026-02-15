@@ -5,6 +5,7 @@ import com.yousra.miawpaw.services.IServiceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,7 +18,7 @@ public class ServiceController {
     private final IServiceService serviceService;
 
     @PostMapping
-    public VetServiceDTO addVetService(@RequestBody VetServiceDTO dto){
+    public VetServiceDTO addVetService(@RequestBody VetServiceDTO dto) throws IOException {
         return serviceService.addService(dto);
     }
 

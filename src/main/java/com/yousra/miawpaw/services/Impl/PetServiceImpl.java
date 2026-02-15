@@ -4,11 +4,13 @@ import com.yousra.miawpaw.dtos.PetDTO;
 import com.yousra.miawpaw.entities.Pet;
 import com.yousra.miawpaw.mappers.PetMapper;
 import com.yousra.miawpaw.repository.PetRepository;
+import com.yousra.miawpaw.services.CloudinaryService;
 import com.yousra.miawpaw.services.IPetService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -20,10 +22,16 @@ public class PetServiceImpl implements IPetService {
 
     private final PetMapper petMapper;
     private final PetRepository petRepository;
+    private final CloudinaryService cloudinaryService;
 
     @Override
-    public PetDTO addPet(PetDTO dto) {
+    public PetDTO addPet(PetDTO dto) throws IOException {
         Pet pet = petMapper.toEntity(dto);
+        if (pet.getImageUrl() != null &&
+                pet.getImageUrl().startsWith("data:image")) {
+            String url = cloudinaryService.uploadBase64(pet.getImageUrl());
+            pet.setImageUrl(url);
+        }
         Pet savedPet = petRepository.save(pet);
         return petMapper.toDto(savedPet);
     }
