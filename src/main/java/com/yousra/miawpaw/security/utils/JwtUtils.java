@@ -3,6 +3,7 @@ package com.yousra.miawpaw.security.utils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,9 +18,14 @@ import java.util.function.Function;
 @Component
 public class JwtUtils {
 
-    private static final String RAW_SECRET_KEY = "68*aq4nif0-xm4a8=!qlk2flmy&ca-q9x&n*ii4kf6%ijcwe9%";
-    private static final String SECRET_KEY = Base64.getEncoder().encodeToString(RAW_SECRET_KEY.getBytes());
+    private static String SECRET_KEY;
     private static final long EXPIRATION_TIME = 864_000_000L;
+
+    @Value("${jwt.secret}")
+    public void setRawSecretKey(String rawSecretKey) {
+        SECRET_KEY = Base64.getEncoder().encodeToString(rawSecretKey.getBytes());
+    }
+//    private static final long EXPIRATION_TIME = 864_000_000L;
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);

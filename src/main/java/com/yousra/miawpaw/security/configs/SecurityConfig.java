@@ -4,6 +4,7 @@ import com.yousra.miawpaw.security.exceptions.CustomAccessDeniedHandler;
 import com.yousra.miawpaw.security.exceptions.CustomAuthenticationEntryPoint;
 import com.yousra.miawpaw.security.filters.JwtRequestFilter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -25,14 +26,15 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     private final JwtRequestFilter jwtRequestFilter;
-
+    @Value("${cors.allowed-origins}")
+    private String allowedOrigins;
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(request -> {
                     var corsConfig = new org.springframework.web.cors.CorsConfiguration();
                     corsConfig.setAllowCredentials(true);
-                    corsConfig.addAllowedOrigin("http://localhost:8080");
+                    corsConfig.addAllowedOrigin(allowedOrigins);
                     corsConfig.addAllowedHeader("*");
                     corsConfig.addAllowedMethod("*");
                     return corsConfig;
