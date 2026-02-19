@@ -5,6 +5,7 @@ import com.yousra.miawpaw.security.models.entities.User;
 import com.yousra.miawpaw.security.models.enums.Role;
 import com.yousra.miawpaw.security.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -14,6 +15,11 @@ import org.springframework.stereotype.Component;
 public class DataSeeders implements CommandLineRunner {
 
     private final UserRepository userRepository;
+
+    @Value("${admin.password}")
+    private String rawPassword;
+    @Value("${admin.username}")
+    private String username;
 
     @Override
     public void run(String... args){
