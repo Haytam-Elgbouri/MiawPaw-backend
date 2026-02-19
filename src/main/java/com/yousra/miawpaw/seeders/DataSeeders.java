@@ -16,10 +16,10 @@ public class DataSeeders implements CommandLineRunner {
 
     private final UserRepository userRepository;
 
-//    @Value("${admin.password}")
-//    private String rawPassword;
-//    @Value("${admin.username}")
-//    private String username;
+    @Value("${admin.password}")
+    private String rawPassword;
+    @Value("${admin.username}")
+    private String username;
 
     @Override
     public void run(String... args){
@@ -28,14 +28,14 @@ public class DataSeeders implements CommandLineRunner {
 
     private void seedAdmin(){
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        String rawPassword = "admin";
+//        String rawPassword = "admin";
         String hashedPassword = encoder.encode(rawPassword);
         if (userRepository.count() == 0) {
             User admin = new User();
 //            admin.setFirstName("Admin");
 //            admin.setLastName("Ladmin");
 
-            admin.setUsername("admin");
+            admin.setUsername(username);
             admin.setPassword(hashedPassword);
 //            admin.setCIN("JB567890");
 //            admin.setPhone("+212 6396-21650");
